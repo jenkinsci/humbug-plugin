@@ -1,26 +1,28 @@
 package hudson.plugins.humbug;
 
+import hudson.ProxyConfiguration;
+import hudson.model.Hudson;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import hudson.model.Hudson;
-import hudson.ProxyConfiguration;
-
 public class Humbug {
+    private String url;
     private String email;
     private String apiKey;
     private String subdomain;
     private static final Logger LOGGER = Logger.getLogger(Humbug.class.getName());
 
-    public Humbug(String email, String apiKey, String subdomain) {
+    public Humbug(String url, String email, String apiKey, String subdomain) {
         super();
+        this.url = url;
         this.email = email;
         this.apiKey = apiKey;
         this.subdomain = subdomain;
@@ -46,6 +48,15 @@ public class Humbug {
         return "api.zulip.com";
     }
 
+    protected String getUrl() {
+
+        if (StringUtils.isNotEmpty(url)) {
+            return url;
+        } else {
+            return "https://" + getHost() + "/v1/";
+        }
+    }
+
     public String getSubdomain() {
       return this.subdomain;
     }
@@ -58,8 +69,8 @@ public class Humbug {
         return this.email;
     }
 
-    public String post(String url, NameValuePair[] parameters) {
-        PostMethod post = new PostMethod("https://" + getHost() + "/v1/" + url);
+    public String post(String method, NameValuePair[] parameters) {
+        PostMethod post = new PostMethod(getUrl() + method);
         post.setRequestHeader("Content-Type", post.FORM_URL_ENCODED_CONTENT_TYPE);
         String auth_info = this.getEmail() + ":" + this.getApiKey();
         String encoded_auth = new String(Base64.encodeBase64(auth_info.getBytes()));
