@@ -32,9 +32,9 @@ public class HumbugNotifier extends Notifier {
         initialize();
     }
 
-    public HumbugNotifier(String url, String email, String apiKey, String subdomain, String stream, String hudsonUrl, boolean smartNotify) {
+    public HumbugNotifier(String url, String email, String apiKey, String stream, String hudsonUrl, boolean smartNotify) {
         super();
-        initialize(url, email, apiKey, subdomain, stream, hudsonUrl, smartNotify);
+        initialize(url, email, apiKey, stream, hudsonUrl, smartNotify);
     }
 
     public BuildStepMonitor getRequiredMonitorService() {
@@ -96,11 +96,11 @@ public class HumbugNotifier extends Notifier {
     }
 
     private void initialize()  {
-        initialize(DESCRIPTOR.getUrl(), DESCRIPTOR.getEmail(), DESCRIPTOR.getApiKey(), DESCRIPTOR.getSubdomain(), DESCRIPTOR.getStream(), DESCRIPTOR.getHudsonUrl(), DESCRIPTOR.getSmartNotify());
+        initialize(DESCRIPTOR.getUrl(), DESCRIPTOR.getEmail(), DESCRIPTOR.getApiKey(), DESCRIPTOR.getStream(), DESCRIPTOR.getHudsonUrl(), DESCRIPTOR.getSmartNotify());
     }
 
-    private void initialize(String url, String email, String apiKey, String subdomain, String streamName, String hudsonUrl, boolean smartNotify) {
-        humbug = new Humbug(url, email, apiKey, subdomain);
+    private void initialize(String url, String email, String apiKey, String streamName, String hudsonUrl, boolean smartNotify) {
+        humbug = new Humbug(url, email, apiKey);
         this.stream = streamName;
         this.hudsonUrl = hudsonUrl;
         this.smartNotify = smartNotify;
