@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 public class DescriptorImpl extends BuildStepDescriptor<Publisher> {
     private boolean enabled = false;
     private String url;
-    @Deprecated
-    private String subdomain;
     private String email;
     private String apiKey;
     private String stream;
@@ -32,11 +30,6 @@ public class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
     public String getUrl() {
         return url;
-    }
-
-    @Deprecated
-    public String getSubdomain() {
-        return subdomain;
     }
 
     public String getApiKey() {
@@ -80,9 +73,11 @@ public class DescriptorImpl extends BuildStepDescriptor<Publisher> {
     @Override
     public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
         url = req.getParameter("humbugUrl");
+        if ( url != null && !url.endsWith("/") ) {
+            url = url + "/";
+        }
         email = req.getParameter("humbugEmail");
         apiKey = req.getParameter("humbugApiKey");
-        subdomain = req.getParameter("humbugSubdomain");
         stream = req.getParameter("humbugStream");
         hudsonUrl = req.getParameter("humbugHudsonUrl");
         if ( hudsonUrl != null && !hudsonUrl.endsWith("/") ) {

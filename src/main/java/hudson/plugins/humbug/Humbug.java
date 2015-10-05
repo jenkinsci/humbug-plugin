@@ -7,7 +7,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,15 +16,13 @@ public class Humbug {
     private String url;
     private String email;
     private String apiKey;
-    private String subdomain;
     private static final Logger LOGGER = Logger.getLogger(Humbug.class.getName());
 
-    public Humbug(String url, String email, String apiKey, String subdomain) {
+    public Humbug(String url, String email, String apiKey) {
         super();
         this.url = url;
         this.email = email;
         this.apiKey = apiKey;
-        this.subdomain = subdomain;
     }
 
     protected HttpClient getClient() {
@@ -41,26 +38,6 @@ public class Humbug {
       return client;
     }
 
-    protected String getHost() {
-        if (this.subdomain.length() > 0) {
-            return this.subdomain + ".zulip.com/api";
-        }
-        return "api.zulip.com";
-    }
-
-    protected String getUrl() {
-
-        if (StringUtils.isNotEmpty(url)) {
-            return url;
-        } else {
-            return "https://" + getHost() + "/v1/";
-        }
-    }
-
-    public String getSubdomain() {
-      return this.subdomain;
-    }
-
     public String getApiKey() {
       return this.apiKey;
     }
@@ -70,7 +47,7 @@ public class Humbug {
     }
 
     public String post(String method, NameValuePair[] parameters) {
-        PostMethod post = new PostMethod(getUrl() + method);
+        PostMethod post = new PostMethod(this.url + "api/v1/" + method);
         post.setRequestHeader("Content-Type", post.FORM_URL_ENCODED_CONTENT_TYPE);
         String auth_info = this.getEmail() + ":" + this.getApiKey();
         String encoded_auth = new String(Base64.encodeBase64(auth_info.getBytes()));

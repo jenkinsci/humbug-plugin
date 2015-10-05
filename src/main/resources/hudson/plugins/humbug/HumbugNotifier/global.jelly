@@ -30,9 +30,5 @@
     <f:entry title="Jenkins URL" help="${rootURL}/plugin/humbug/help-globalConfig-hudsonUrl.html">
         <f:textbox name="humbugHudsonUrl" value="${descriptor.getHudsonUrl()}" />
     </f:entry>
-    <f:entry title="Zulip Subdomain" help="${rootURL}/plugin/humbug/help-globalConfig-subdomain.html"
-             description="Optional. If you use a URL like yourcompany.zulip.com, put 'yourcompany' here.">
-        <f:textbox name="humbugSubdomain" value="${descriptor.getSubdomain()}" />
-    </f:entry>
   </f:section>
 </j:jelly>
