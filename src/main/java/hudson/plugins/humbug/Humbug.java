@@ -61,7 +61,7 @@ public class Humbug {
         return this.email;
     }
 
-    public String post(String method, NameValuePair[] parameters) {
+    public String post(String method, NameValuePair[] parameters) throws IOException {
         PostMethod post = new PostMethod(getApiEndpoint() + method);
         post.setRequestHeader("Content-Type", post.FORM_URL_ENCODED_CONTENT_TYPE);
         String auth_info = this.getEmail() + ":" + this.getApiKey();
@@ -83,8 +83,6 @@ public class Humbug {
                                          "We sent:" + params);
             }
             return response;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } finally {
             post.releaseConnection();
         }
@@ -112,7 +110,7 @@ public class Humbug {
 //        return true;
 //    }
 
-    public String sendStreamMessage(String stream, String subject, String message) {
+    public String sendStreamMessage(String stream, String subject, String message) throws IOException {
         NameValuePair[] body = {new NameValuePair("api-key", this.getApiKey()),
                                 new NameValuePair("email",   this.getEmail()),
                                 new NameValuePair("type",    "stream"),

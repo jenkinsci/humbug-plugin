@@ -92,7 +92,14 @@ public class HumbugNotifier extends Notifier {
             message += "\n\n";
             message += changeString;
         }
-        humbug.sendStreamMessage(stream, build.getProject().getName(), message);
+        try {
+            humbug.sendStreamMessage(stream, build.getProject().getName(), message);
+        }
+        catch ( IOException ex ){
+            LOGGER.log(Level.SEVERE, "Error sending Zulip message. Project: '" + build.getProject().getName() +
+                    "' Message: '" + message + "'", ex);
+            // TODO: output some message to the build log here?
+        }
     }
 
     private void initialize()  {
