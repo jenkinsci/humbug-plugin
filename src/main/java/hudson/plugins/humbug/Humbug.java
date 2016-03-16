@@ -1,7 +1,6 @@
 package hudson.plugins.humbug;
 
-import hudson.ProxyConfiguration;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -9,6 +8,10 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,15 +31,17 @@ public class Humbug {
         this.apiKey = apiKey;
     }
 
-    protected HttpClient getClient() {
+    protected HttpClient getClient() throws MalformedURLException {
       HttpClient client = new HttpClient();
       // TODO: It would be nice if this version number read from the Maven XML file
       // (which is possible, but annoying)
       // http://stackoverflow.com/questions/8829147/maven-version-number-in-java-file
       client.getParams().setParameter("http.useragent", "ZulipJenkins/0.1.2");
-      ProxyConfiguration proxy = Hudson.getInstance().proxy;
-      if (proxy != null) {
-          client.getHostConfiguration().setProxy(proxy.name, proxy.port);
+      URL urlObj = new URL(url);
+      Proxy proxy = Jenkins.getInstance().proxy.createProxy(urlObj.getHost());
+      if (proxy.type() != Proxy.Type.DIRECT) {
+          InetSocketAddress addr = (InetSocketAddress)proxy.address();
+          client.getHostConfiguration().setProxy(addr.getHostName(), addr.getPort());
       }
       return client;
     }
