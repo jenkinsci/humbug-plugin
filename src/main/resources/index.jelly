@@ -4,5 +4,7 @@
   Since we don't really have anything dynamic here, let's just use static HTML.
 -->
 <div>
-  This plugin is a Zulip bot that can publish build statuses to Zulip streams.
+  This plugin is now deprecated, updating to this version will automatically install new version of the
+  plugin https://wiki.jenkins.io/display/JENKINS/Zulip+Plugin.<br/>
+  If you did not use this plugin, install https://wiki.jenkins.io/display/JENKINS/Zulip+Plugin instead.
 </div>

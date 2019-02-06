@@ -4,13 +4,18 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.544</version>
+    <version>3.19</version>
   </parent>
+
+  <properties>
+    <jenkins.version>1.653</jenkins.version>
+    <java.level>7</java.level>
+  </properties>
 
   <artifactId>humbug</artifactId>
   <packaging>hpi</packaging>
   <version>0.1.4-SNAPSHOT</version>
-  <name>Jenkins Zulip Plugin</name>
+  <name>Deprecated: Jenkins Zulip Plugin</name>
   <description>A build status notifier that sends notifications to Zulip</description>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Humbug+Plugin</url>
   <licenses>
@@ -24,19 +29,9 @@
   </scm>
   <dependencies>
     <dependency>
-      <groupId>org.jenkins-ci.main</groupId>
-      <artifactId>maven-plugin</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1-rc1</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.6</version>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>zulip</artifactId>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
   <developers>
@@ -46,6 +41,11 @@
       <email>wdaher@zulip.com</email>
       <organization>Zulip</organization>
       <organizationUrl>https://zulip.com/</organizationUrl>
+    </developer>
+    <developer>
+      <id>butchyyyy</id>
+      <name>Milan Koníř</name>
+      <email>Konir.M@gmail.com</email>
     </developer>
   </developers>
 
